@@ -39,7 +39,7 @@ var productSchema = new mongoose.Schema({
   },
 
   price: {
-    type: String,
+    type: Number,
     required: true,
   },
 
@@ -66,6 +66,7 @@ var productSchema = new mongoose.Schema({
     average_star: {
       type: Number,
       default: 0,
+      set: (value) => parseFloat(value.toFixed(1)),
     },
     review: [
       {

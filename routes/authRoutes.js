@@ -8,7 +8,8 @@ const {
   updateUser,
   loginAdmin,
   handleRefreshToken,
-  logout
+  logout,
+  addToCart,
 } = require("../controller/userCtrl");
 const router = express.Router();
 
@@ -22,4 +23,5 @@ router.get("/all-users", getAllUser);
 router.get("/:id", authMiddleware, getUserById);
 router.delete("/:id", authMiddleware, deleteUser);
 router.put("/edit-user/:id", authMiddleware, updateUser);
+router.put("/add-product-to-cart", authMiddleware, addToCart);
 module.exports = router;

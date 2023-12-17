@@ -31,12 +31,22 @@ var userSchema = new mongoose.Schema(
     },
 
     cart: {
-      type: Array,
-      default: [],
+      products: [
+        {
+          product: { type: mongoose.Schema.Types.ObjectId },
+          count: Number,
+          color: String,
+          price: Number,
+        },
+      ],
+      totalPrice: {  
+        type: Number,
+        default: 0
+      },
     },
-    refreshtoken:{ 
-      type: String
-    }
+    refreshtoken: {
+      type: String,
+    },
   },
   {
     timestamps: true,

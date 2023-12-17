@@ -1,6 +1,7 @@
 const { generateToken } = require("../config/jwtToken");
 const { generateRefreshToken } = require("../config/refreshToken");
 const User = require("../models/userModel");
+const Product = require("../models/productModel");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const createUser = asyncHandler(async (req, res) => {
@@ -165,6 +166,49 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
+const addToCart = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { product, count } = req.body;
+
+  try {
+    const user = await User.findById(_id);
+    let alreadyProduct = user.cart.products.find(
+      (prod) => prod.product.toString() === product.toString()
+    );
+
+    let getProd = await Product.findById(product);
+    if (alreadyProduct) {
+      if (count === 0) {
+        user.cart.products = user.cart.products.filter(
+          (prod) => prod.product.toString() !== product.toString()
+        );
+      } else {
+        alreadyProduct.count = count;
+      }
+    } else {
+      user.cart.products.push({
+        product: product,
+        count: count,
+        color: getProd.color,
+        price: getProd.price,
+      });
+    }
+    user.cart.totalPrice = calculateTotalPrice(user.cart.products);
+    const updateCart = await user.save();
+    res.json(updateCart);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+const calculateTotalPrice = (products) => {
+  let totalPrice = 0;
+  products.forEach((product) => {
+    totalPrice += product.price * product.count;
+  });
+  return totalPrice;
+};
+
 module.exports = {
   createUser,
   loginUser,
@@ -175,4 +219,5 @@ module.exports = {
   handleRefreshToken,
   loginAdmin,
   logout,
+  addToCart,
 };

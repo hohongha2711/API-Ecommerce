@@ -67,6 +67,7 @@ const getProductDetail = asyncHandler(async (req, res) => {
 });
 
 const addReview = asyncHandler(async (req, res) => {
+  console.log(req.user)
   const { _id } = req.user;
   const { star, productId, comment } = req.body;
 
@@ -138,7 +139,7 @@ const addReview = asyncHandler(async (req, res) => {
 
       const result = await Product.findByIdAndUpdate(
         rateProduct._id,
-        { "ratings.average_star": averageResult[0].average_star },
+        { "ratings.average_star":averageResult[0].average_star },
         { new: true }
       );
 
