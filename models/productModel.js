@@ -5,6 +5,13 @@ var productSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    trim: true,
+  },
+
+  slug: {
+    type: String,
+    required: true,
+    lowercase: true,
   },
   sortdescription: {
     type: String,
@@ -48,13 +55,27 @@ var productSchema = new mongoose.Schema({
   sold: {
     type: Number,
     require: true,
+    default: 0
   },
 
-  rate: {
-    type: Number,
-    require: true,
+  ratings: {
+    total_rating: {
+      type: Number,
+      default: 0,
+    },
+    average_star: {
+      type: Number,
+      default: 0,
+    },
+    review: [
+      {
+        star: Number,
+        comment: String,
+        postedby: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      },
+    ],
   },
 });
-
+productSchema.index({ slug: 1, color: 1, brand: 1 }, { unique: true });
 //Export the model
 module.exports = mongoose.model("Product", productSchema);
