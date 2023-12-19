@@ -49,8 +49,21 @@ const updateProduct = asyncHandler(async (req, res) => {
 
 const getProductList = asyncHandler(async (req, res) => {
   try {
-    const listProduct = await Product.find();
-    res.json(listProduct);
+    const { category, color, brand, sort } = req.query;
+    const filter = {};
+    if (category) filter.category = category;
+    if (color) filter.color = color;
+    if (brand) filter.brand = brand;
+    let productList = Product.find(filter);
+    if (sort) {
+      const sortOptions = sort.split(":");
+      const sortField = sortOptions[0];
+      const sortOrder = sortOptions[1] === "desc" ? -1 : 1;
+      productList = productList.sort({ [sortField]: sortOrder });
+    }
+    productList = await productList.exec();
+
+    res.json(productList);
   } catch (error) {
     throw new Error(error);
   }
@@ -67,7 +80,7 @@ const getProductDetail = asyncHandler(async (req, res) => {
 });
 
 const addReview = asyncHandler(async (req, res) => {
-  console.log(req.user)
+  console.log(req.user);
   const { _id } = req.user;
   const { star, productId, comment } = req.body;
 
@@ -139,7 +152,7 @@ const addReview = asyncHandler(async (req, res) => {
 
       const result = await Product.findByIdAndUpdate(
         rateProduct._id,
-        { "ratings.average_star":averageResult[0].average_star },
+        { "ratings.average_star": averageResult[0].average_star },
         { new: true }
       );
 

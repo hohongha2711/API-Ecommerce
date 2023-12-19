@@ -209,6 +209,31 @@ const calculateTotalPrice = (products) => {
   return totalPrice;
 };
 
+const deleteProductInCart = asyncHandler(async (req, res) => {
+  const user = req.user;
+  const { id } = req.params;
+  try {
+    user.cart.products = user.cart.products.filter(
+      (prod) => prod.product.toString() !== id.toString()
+    );
+    user.cart.totalPrice = calculateTotalPrice(user.cart.products);
+    const updateCart = await user.save();
+    res.json(updateCart)
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+const getCart = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  try {
+    const user = await User.findById(_id);
+    res.json(user.cart);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
 module.exports = {
   createUser,
   loginUser,
@@ -220,4 +245,6 @@ module.exports = {
   loginAdmin,
   logout,
   addToCart,
+  getCart,
+  deleteProductInCart
 };

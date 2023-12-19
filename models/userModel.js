@@ -33,7 +33,7 @@ var userSchema = new mongoose.Schema(
     cart: {
       products: [
         {
-          product: { type: mongoose.Schema.Types.ObjectId },
+          product: { type: mongoose.Schema.Types.ObjectId, ref: "Product"},
           count: Number,
           color: String,
           price: Number,

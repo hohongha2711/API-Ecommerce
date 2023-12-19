@@ -55,7 +55,7 @@ var productSchema = new mongoose.Schema({
   sold: {
     type: Number,
     require: true,
-    default: 0
+    default: 0,
   },
 
   ratings: {
