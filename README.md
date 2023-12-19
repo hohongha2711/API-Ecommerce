@@ -18,6 +18,6 @@
   * Chỉnh sửa thông tin sản phẩm  
   * Xem thông tin sản phẩm  
   * Thêm, sửa đánh giá sản phẩm
-## Đặt hàng(Order)
-### Thanh toán VNPAY
+### Đặt hàng(Order)
+### Thanh toán qua VNPAY
 ## Updating...
