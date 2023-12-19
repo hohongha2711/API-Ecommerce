@@ -1,6 +1,6 @@
 # Backend E-Commerce API
 ## Công nghệ sử dụng
-  Nodejs, Express, MongoDB
+  NodeJS, ExpressJS, MongoDB
 ## Chức năng
 ### Quản lý User
   * Đăng ký user (Register)  
