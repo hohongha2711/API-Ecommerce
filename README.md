@@ -1,4 +1,4 @@
 # Backend E-Commerce API
 ## Tech
-### Nodejs
+  Nodejs, Express, MongoDB
 ## Updating...
