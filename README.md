@@ -7,7 +7,7 @@
   * Chỉnh sửa thông user (Update)  
   * Xoá user (Delete)  
   * Phân loại người dùng (admin/user)  
-  * Đăng nhập/ Đăng xuất (Login/Logout): Sử dụng JsonWebToken  
+  * Đăng nhập/ Đăng xuất (Login/Logout) 
   * Xem thông tin user  
 #### Giỏ hàng
   * Thêm sản phẩm vào giỏ hàng  
