@@ -1,7 +1,7 @@
 # Backend E-Commerce API
 ## Công nghệ sử dụng
   Nodejs, Express, MongoDB
-## Nội dung
+## Chức năng
 ### Quản lý User
   * Đăng ký user (Register)  
   * Chỉnh sửa thông user (Update)  
@@ -19,5 +19,7 @@
   * Xem thông tin sản phẩm  
   * Thêm, sửa đánh giá sản phẩm
 ### Đặt hàng(Order)
+  * Tạo đơn hàng
+  * Xem thông tin đơn hàng
 ### Thanh toán qua VNPAY
 ## Updating...
