@@ -21,5 +21,6 @@
 ### Đặt hàng(Order)
   * Tạo đơn hàng
   * Xem thông tin đơn hàng
+  * Cập nhật trạng thái đơn hàng
 ### Thanh toán qua VNPAY
 ## Updating...
