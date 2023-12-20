@@ -1,8 +1,19 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
 const slugify = require("slugify");
+const axios = require('axios');
+const {
+  handleUpload,
+  getFileName,
+  getFileNames,
+} = require("../middlewares/upload");
+const {singleUpload, multipleUpload} = require("./uploadCtrl")
+
 const createProduct = asyncHandler(async (req, res) => {
   try {
+    const fil = await multipleUpload(req, res)
+    req.body.images = fil.images
+    console.log(req.body)
     if (req.body.name) {
       req.body.slug = slugify(req.body.name);
     }
