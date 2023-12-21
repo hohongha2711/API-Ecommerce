@@ -43,10 +43,6 @@ var productSchema = new mongoose.Schema({
     required: true,
   },
 
-  brand: {
-    type: String,
-    required: true,
-  },
   quantity: {
     type: Number,
     require: true,

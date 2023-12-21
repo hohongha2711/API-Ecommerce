@@ -20,7 +20,6 @@ const createProduct = asyncHandler(async (req, res) => {
     const findProduct = await Product.findOne({
       slug: req.body.slug,
       color: req.body.color,
-      brand: req.body.brand,
     });
     if (!findProduct) {
       const newProduct = await Product.create(req.body);
@@ -60,11 +59,10 @@ const updateProduct = asyncHandler(async (req, res) => {
 
 const getProductList = asyncHandler(async (req, res) => {
   try {
-    const { category, color, brand, sort } = req.query;
+    const { category, color, sort } = req.query;
     const filter = {};
     if (category) filter.category = category;
     if (color) filter.color = color;
-    if (brand) filter.brand = brand;
     let productList = Product.find(filter);
     if (sort) {
       const sortOptions = sort.split(":");

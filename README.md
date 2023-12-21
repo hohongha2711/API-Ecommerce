@@ -23,8 +23,5 @@
   * Xem thông tin đơn hàng
   * Cập nhật trạng thái đơn hàng
 
-### Quản lý các chi nhánh(brand)
-  * Thêm chi nhánh mới
-  * Tìm kiếm chi nhánh theo tên, địa chỉ, id
 ### Thanh toán qua VNPAY
 ## Updating...
