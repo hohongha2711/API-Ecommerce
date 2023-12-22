@@ -46,7 +46,7 @@ router.get("/order/:id", authMiddleware, getOrderByID);
 router.get(
   "/order/get-all-by-user/:id",
   authMiddleware,
-  isAdmin,
+  isAdmin,  
   getOrderByUserID
 );
 router.delete("/delete-order/:id", authMiddleware, isAdmin, deleteOrder);
