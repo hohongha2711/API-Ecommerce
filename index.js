@@ -15,7 +15,9 @@ dbConnect();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
+app.get('/', (req, res) => {
+  res.status(200).json('Welcome, your app is working well');
+})
 app.use("/api/user", authRouter);
 app.use("/api/product", productRouter);
 app.use("/api/pay", payment);
