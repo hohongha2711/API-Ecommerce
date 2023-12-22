@@ -18,6 +18,10 @@ app.use(cookieParser());
 app.get('/', (req, res) => {
   res.status(200).json('Welcome, your app is working well');
 })
+
+app.get('/api/home', (req, res) => {
+  res.status(200).json('Welcome, home pge');
+})
 app.use("/api/user", authRouter);
 app.use("/api/product", productRouter);
 app.use("/api/pay", payment);
