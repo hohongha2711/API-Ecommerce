@@ -10,7 +10,7 @@ const cookieParser = require("cookie-parser");
 const { notFound, errorHandler } = require("./middlewares/errorHandler");
 const payment = require("./routes/payment");
 const uploadRouter = require("./routes/uploadRoutes")
-
+const categoryRouter = require("./routes/categoryRoutes")
 dbConnect();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,7 +26,7 @@ app.use("/api/user", authRouter);
 app.use("/api/product", productRouter);
 app.use("/api/pay", payment);
 app.use("/api/upload",uploadRouter);
-
+app.use("/api/category", categoryRouter)
 app.use(notFound);
 app.use(errorHandler);
 

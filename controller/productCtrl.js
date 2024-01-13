@@ -1,19 +1,19 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
 const slugify = require("slugify");
-const axios = require('axios');
+const axios = require("axios");
 const {
   handleUpload,
   getFileName,
   getFileNames,
 } = require("../middlewares/upload");
-const {singleUpload, multipleUpload} = require("./uploadCtrl")
+const { singleUpload, multipleUpload } = require("./uploadCtrl");
 
 const createProduct = asyncHandler(async (req, res) => {
   try {
-    const fil = await multipleUpload(req, res)
-    req.body.images = fil.images
-    console.log(req.body)
+    const images = await multipleUpload(req, res);
+    req.body.images = images.images;
+    console.log(req.body);
     if (req.body.name) {
       req.body.slug = slugify(req.body.name);
     }
@@ -25,7 +25,7 @@ const createProduct = asyncHandler(async (req, res) => {
       const newProduct = await Product.create(req.body);
       res.json(newProduct);
     } else {
-      throw new Error(`Product already exists in brand ${req.body.brand}`);
+      throw new Error(`Product already exists.`);
     }
   } catch (error) {
     throw new Error(error);
