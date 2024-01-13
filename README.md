@@ -19,6 +19,9 @@
   * Chỉnh sửa thông tin sản phẩm  
   * Xem thông tin sản phẩm  
   * Thêm, sửa đánh giá sản phẩm
+### Category
+  * Thêm category
+  * Xoá category: Khi xoá một Category thì xoá các sản phẩm thuộc Category đó
 ### Đặt hàng(Order)
   * Tạo đơn hàng
   * Xem thông tin đơn hàng
