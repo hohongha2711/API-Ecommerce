@@ -1,4 +1,5 @@
 # Backend E-Commerce API
+## Updating...
 ## Công nghệ sử dụng
   NodeJS, ExpressJS, MongoDB
 ## Chức năng
@@ -24,4 +25,4 @@
   * Cập nhật trạng thái đơn hàng
 
 ### Thanh toán qua VNPAY
-## Updating...
+
