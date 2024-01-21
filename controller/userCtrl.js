@@ -4,7 +4,7 @@ const User = require("../models/userModel");
 const Product = require("../models/productModel");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
-
+const cookie = require("cookie")
 
 const createUser = asyncHandler(async (req, res) => {
   const email = req.body.email;
@@ -18,64 +18,93 @@ const createUser = asyncHandler(async (req, res) => {
 });
 
 const loginUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-  const findUser = await User.findOne({ email: email });
-
-  if (findUser && (await findUser.isPasswordMatched(password))) {
-    const refreshToken = generateRefreshToken(findUser?._id);
-    const updatedUser = await User.findByIdAndUpdate(
-      findUser.id,
-      {
-        refreshtoken: refreshToken,
-      },
-      { new: true }
-    );
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      maxAge: 72 * 60 * 60 * 1000,
-    });
-    res.json({
-      _id: findUser?._id,
-      firstname: findUser?.firstname,
-      lastname: findUser?.lastname,
-      email: findUser?.email,
-      mobile: findUser?.mobile,
-      role: findUser?.role,
-      token: generateToken(findUser?._id),
-    });
-  } else {
-    throw new Error("Email or password is wrong!");
-  }
+  try{ 
+    const { email, password } = req.body;
+    const findUser = await User.findOne({ email: email });
+    if (findUser && (await findUser.isPasswordMatched(password))) {
+      const refreshToken = generateRefreshToken(findUser?._id);
+      const updatedUser = await User.findByIdAndUpdate(
+        findUser.id,
+        {
+          refreshtoken: refreshToken,
+        },
+        { new: true }
+      );
+      res.setHeader("Set-Cookie", [
+        cookie.serialize("refreshToken", refreshToken, {
+          httpOnly: true,
+          maxAge: 72 * 60 * 60,
+          sameSite: "none",
+          secure: true,
+          path: "/",
+        }),
+        cookie.serialize("token", token, {
+          httpOnly: true,
+          maxAge: 60 * 15, // Set an appropriate expiry time for the token
+          sameSite: "none",
+          secure: true,
+          path: "/",
+        }),
+      ]);
+      res.json({
+        _id: findUser?._id,
+        firstname: findUser?.firstname,
+        lastname: findUser?.lastname,
+        email: findUser?.email,
+        mobile: findUser?.mobile,
+        role: findUser?.role,
+        token: generateToken(findUser?._id),
+      });
+    }
+  else{ 
+    res.status(404).json("Incorrect email or password");
+  } }catch(error) {
+      throw new Error(error);
+    }
 });
 
 const loginAdmin = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-  const findUser = await User.findOne({ email: email });
-
-  if (findUser && (await findUser.isPasswordMatched(password))) {
-    const refreshToken = generateRefreshToken(findUser?._id);
-    const updatedUser = await User.findByIdAndUpdate(
-      findUser.id,
-      {
-        refreshtoken: refreshToken,
-      },
-      { new: true }
-    );
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      maxAge: 72 * 60 * 60 * 1000,
-    });
-    res.json({
-      _id: findUser?._id,
-      firstname: findUser?.firstname,
-      lastname: findUser?.lastname,
-      email: findUser?.email,
-      mobile: findUser?.mobile,
-      role: findUser?.role,
-      token: generateToken(findUser?._id),
-    });
-  } else {
-    throw new Error("Email or password is wrong!");
+  try {
+    const { email, password } = req.body;
+    const findUser = await User.findOne({ email: email, role: "admin" });
+    if (findUser && (await findUser.isPasswordMatched(password))) {
+      const refreshToken = generateRefreshToken(findUser?._id);
+      const updatedUser = await User.findByIdAndUpdate(
+        findUser.id,
+        {
+          refreshtoken: refreshToken,
+        },
+        { new: true }
+      );
+      const token = generateToken(findUser?._id);
+      
+      res.setHeader("Set-Cookie", [
+        cookie.serialize("refreshToken", refreshToken, {
+          httpOnly: true,
+          maxAge: 72 * 60 * 60,
+          path: "/",
+        }),
+        cookie.serialize("token", token, {
+          httpOnly: true,
+          maxAge: 60 * 15, // Set an appropriate expiry time for the token
+          path: "/",
+        }),
+      ]);
+      
+      res.json({
+        _id: findUser?._id,
+        firstname: findUser?.firstname,
+        lastname: findUser?.lastname,
+        email: findUser?.email,
+        mobile: findUser?.mobile,
+        role: findUser?.role,
+        token: token,
+      });
+    } else {
+      res.status(404).json("Incorrect email or password");
+    }
+  } catch (error) {
+    throw new Error(error);
   }
 });
 
@@ -99,6 +128,10 @@ const logout = asyncHandler(async (req, res) => {
     { new: true }
   );
   res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: true,
+  });
+  res.clearCookie("token", {
     httpOnly: true,
     secure: true,
   });
