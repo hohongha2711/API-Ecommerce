@@ -22,7 +22,7 @@ const multipleUpload = async (req, res) => {
       const newPath = await handleUpload(file);
       urls.push(newPath);
     }
-    return({ images: urls })
+    res.json(urls)
   } catch (error) {
     console.log("error multiple upload", error);
     res.status(500).send("Cannot upload images");

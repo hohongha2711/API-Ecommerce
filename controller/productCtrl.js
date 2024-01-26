@@ -11,8 +11,9 @@ const { singleUpload, multipleUpload } = require("./uploadCtrl");
 
 const createProduct = asyncHandler(async (req, res) => {
   try {
-    const images = await multipleUpload(req, res);
-    req.body.images = images.images;
+    // console.log(req)
+    //const images = await multipleUpload(req, res);
+    //req.body.images = images.images;
     console.log(req.body);
     if (req.body.name) {
       req.body.slug = slugify(req.body.name);
